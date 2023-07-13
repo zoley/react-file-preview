@@ -1,0 +1,24 @@
+.cr-viewer-wrapper{
+  width:100%;
+}
+.pdf-viewer-wrapper .pdf-controls{position:fixed;top:70px;right:40px;display:flex;align-items: center;font-size: 20px;cursor: pointer;user-select: none;}
+.pdf-viewer-wrapper .pdf-controls .pdf-large{margin-right: 10px;}
+.pdf-viewer-wrapper .pdf-viewer{background-color: #f0f2f5;}
+.xlsx-viewer .xlsx-btn{padding:0 20px;}
+.img-viewer-wrapper img{width:100%;max-width:1000px;margin: 10px auto 0;display: block;}
+.text-viewer-wrapper .code-area {
+  display: block;
+  margin: 0 auto;
+  font-size: 12px;
+  width: 1000px;
+  padding:10px;
+  min-height: 500px;
+  background: #1f1f1f;
+  word-break: break-word;
+  white-space: break-spaces;
+  color: #5af117
+}
+/* video全屏半屏 ResizeObserver loop limit exceeded报错隐藏 */
+#webpack-dev-server-client-overlay {
+  display: none !important;
+}
