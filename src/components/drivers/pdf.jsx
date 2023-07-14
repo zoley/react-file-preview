@@ -3,7 +3,9 @@ import * as PDFJS from "pdfjs-dist/legacy/build/pdf"
 import React,{ useEffect,useState,useRef } from 'react'
 import VisibilitySensor from 'react-visibility-sensor';
 import pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker.entry"
+import {Loading}from "../loading";
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker
+
 
 const DEFAULT_SCALE=1.4
 const INCREASE_PERCENTAGE = 0.2;
@@ -36,7 +38,7 @@ const PDFPage=React.memo(({index,zoom,pdfInstance,containerWidth})=>{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[index,zoom,visible])
 
-  return <div key={String(index)+'pdf'} style={{textAlign:'center'}}>
+  return <div key={String(index)+'pdf'} style={{textAlign:'center',display:'flex',justifyContent:'center'}}>
     <VisibilitySensor partialVisibility onChange={onChange}>
      <canvas id={'canvasPDF'+index}/> 
     </VisibilitySensor>
@@ -46,6 +48,7 @@ const PDFPage=React.memo(({index,zoom,pdfInstance,containerWidth})=>{
 
 export const PDFViewer=(props)=>{
   const [pages,setPages]=useState([])
+  const [loading,setLoading]=useState(true)
   const [zoom,setZoom]=useState(0)
   const pdfRef=useRef()
   const containerRef=useRef()
@@ -78,6 +81,7 @@ export const PDFViewer=(props)=>{
         const random=(Math.random() * 10000000).toFixed(0)
         const tempPages = Array.from({ length: pdf.numPages }).fill(random);
         setPages(tempPages)
+        setLoading(false)
       });
     }
   },[props?.filePath])
@@ -87,9 +91,10 @@ export const PDFViewer=(props)=>{
       <div className="pdf-large" onClick={handleIncreaseZoom}>➕</div>
       <div className="pdf-small" onClick={handleReduceZoom}>➖</div>
     </div>
+    {loading && <Loading/>}
     <div ref={containerRef} className="pdf-viewer">
       {
-        pages?.map((x,i)=>{
+        !loading && pages?.map((x,i)=>{
           return <PDFPage 
             key={String(i)+'pdfs'+x}
             index={i+1} 

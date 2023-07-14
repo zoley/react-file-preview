@@ -1,12 +1,13 @@
 
 
-import React,{ useEffect } from 'react'
+import React,{ useEffect,useState } from 'react'
+import {Loading}from "../loading";
 
 import { defaultOptions, renderAsync } from "docx-preview";
 
 
 export const DocxViewer=(props)=>{
-  
+  const [loading,setLoading]=useState(true)
   useEffect(()=>{
     if(props?.filePath){
       const docxOptions = Object.assign(defaultOptions, {
@@ -14,11 +15,14 @@ export const DocxViewer=(props)=>{
         experimental: true,
       });
       const dom=document.getElementById('docx-viewer')
-      renderAsync(props?.filePath, dom, null, docxOptions)
+      renderAsync(props?.filePath, dom, null, docxOptions).finally(()=>{
+        setLoading(false)
+      })
     }
   },[props?.filePath])
 
   return <div className="docx-viewer-wrapper">
-    <div id="docx-viewer"></div>
+       {loading && <Loading/>}
+    <div id="docx-viewer" style={{visibility:loading?'hidden':'visible'}}></div>
   </div>
 }

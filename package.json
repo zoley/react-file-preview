@@ -1,6 +1,6 @@
 {
   "name": "@zoley/react-file-preview",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "File viewer for React.",
   "main": "lib/index.js",
   "private":false,

@@ -4,12 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
+/.lh
+/.idea
 
 # testing
 /coverage
 
 # production
 /build
+/lib
 
 # misc
 .DS_Store

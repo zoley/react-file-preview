@@ -30,7 +30,7 @@ function App() {
         filePath?<FileViewer
                       fileType={fileType}
                       filePath={filePath}
-                    />:<Loading/>
+                    />:<>暂无数据</>
       }
       
     </div>
