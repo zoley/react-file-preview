@@ -8,6 +8,10 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.svg/,
+        use: ['url-loader']
+      },
+      {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },

@@ -25,8 +25,8 @@ const webpackConfigDev = {
     devServer: {
         hot: true,
         open: true,
-        host: 'localhost',
-        port: 9527,
+        host: '0.0.0.0',
+        port: 9527
     },
 
     plugins: [

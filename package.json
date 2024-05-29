@@ -1,14 +1,16 @@
 {
   "name": "@zoley/react-file-preview",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "File viewer for React.",
   "main": "lib/index.js",
-  "private":false,
+  "private": false,
   "scripts": {
     "build": "webpack --config ./scripts/webpack.prod.config.js",
     "start": "webpack-dev-server --config ./scripts/webpack.dev.config.js"
   },
-  "files":["lib"],
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "reactjs",
     "file-preview"

@@ -4,6 +4,8 @@ import React,{ useEffect,useState,useRef } from 'react'
 import VisibilitySensor from 'react-visibility-sensor';
 import pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker.entry"
 import {Loading}from "../loading";
+import Plus from './plus.svg'
+import Minus from './minus.svg'
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 
@@ -38,7 +40,7 @@ const PDFPage=React.memo(({index,zoom,pdfInstance,containerWidth})=>{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[index,zoom,visible])
 
-  return <div key={String(index)+'pdf'} style={{textAlign:'center',display:'flex',justifyContent:'center'}}>
+  return <div key={String(index)+'pdf'} style={{textAlign:'center'}}>
     <VisibilitySensor partialVisibility onChange={onChange}>
      <canvas id={'canvasPDF'+index}/> 
     </VisibilitySensor>
@@ -86,10 +88,14 @@ export const PDFViewer=(props)=>{
     }
   },[props?.filePath])
 
-  return <div className="pdf-viewer-wrapper">
+  return <div className="pdf-viewer-wrapper" style={{width:'100%',height:'100%',overflow:'auto'}}>
     <div className="pdf-controls">
-      <div className="pdf-large" onClick={handleIncreaseZoom}>➕</div>
-      <div className="pdf-small" onClick={handleReduceZoom}>➖</div>
+      <div className="pdf-large" onClick={handleIncreaseZoom}>
+        <img src={Plus} alt="" />
+      </div>
+      <div className="pdf-small" onClick={handleReduceZoom}>
+      <img src={Minus} alt="" />
+      </div>
     </div>
     {loading && <Loading/>}
     <div ref={containerRef} className="pdf-viewer">
