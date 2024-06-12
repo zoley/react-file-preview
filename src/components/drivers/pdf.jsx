@@ -12,7 +12,7 @@ PDFJS.GlobalWorkerOptions.workerSrc = new URL(
 const DEFAULT_SCALE = 3;
 const INCREASE_PERCENTAGE = 0.2;
 let timeout;
-const CMAP_URL = "./cmaps/";
+const CMAP_URL = "/cmaps/";
 const CMAP_PACKED = true;
 
 const PDFPage = React.memo(({ index, zoom, pdfInstance, containerWidth }) => {
