@@ -1,115 +1,136 @@
+import * as PDFJS from "pdfjs-dist";
+import React, { useEffect, useState, useRef } from "react";
+import VisibilitySensor from "react-visibility-sensor";
+import { Loading } from "../loading";
+import Plus from "./plus.svg";
+import Minus from "./minus.svg";
+PDFJS.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 
-import * as PDFJS from "pdfjs-dist/legacy/build/pdf"
-import React,{ useEffect,useState,useRef } from 'react'
-import VisibilitySensor from 'react-visibility-sensor';
-import pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker.entry"
-import {Loading}from "../loading";
-import Plus from './plus.svg'
-import Minus from './minus.svg'
-PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker
-
-
-const DEFAULT_SCALE=1.4
+const DEFAULT_SCALE = 3;
 const INCREASE_PERCENTAGE = 0.2;
 let timeout;
+const CMAP_URL = "./cmaps/";
+const CMAP_PACKED = true;
 
-const PDFPage=React.memo(({index,zoom,pdfInstance,containerWidth})=>{
-  const [visible,setVisible]=useState(false)
-  const handlePageRender=async()=>{
-    const page= await pdfInstance.getPage(index);
-    const calculatedScale = (containerWidth / page.getViewport({scale:DEFAULT_SCALE}).width);
-    const scale = calculatedScale > DEFAULT_SCALE ? DEFAULT_SCALE : calculatedScale;
-    const viewport = page.getViewport({scale:scale + zoom});
+const PDFPage = React.memo(({ index, zoom, pdfInstance, containerWidth }) => {
+  const [visible, setVisible] = useState(false);
+  const [style, setStyle] = useState({});
+  const handlePageRender = async () => {
+    const page = await pdfInstance.getPage(index);
+
+    // console.log(page.getViewport({ scale: DEFAULT_SCALE }).width);
+    // const calculatedScale =
+    //   containerWidth / page.getViewport({ scale: DEFAULT_SCALE }).width;
+    // const scale =
+    //   calculatedScale > DEFAULT_SCALE ? DEFAULT_SCALE : calculatedScale;
+    const viewport = page.getViewport({ scale: DEFAULT_SCALE + zoom });
     const { width, height } = viewport;
+    setStyle({
+      width: `${width / 2}px`,
+      height: `${height / 2}px`,
+    });
     const canvas = document.getElementById("canvasPDF" + index);
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
     canvas.width = width;
     canvas.height = height;
     page.render({
       canvasContext: context,
       viewport,
     });
-  }
-  const onChange=(visible)=>{
-    setVisible(visible)
-  }
-  useEffect(()=>{
-    if(visible){
-      handlePageRender()
+  };
+  const onChange = (visible) => {
+    setVisible(visible);
+  };
+  useEffect(() => {
+    if (visible) {
+      handlePageRender();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[index,zoom,visible])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, zoom, visible]);
 
-  return <div key={String(index)+'pdf'} style={{textAlign:'center'}}>
-    <VisibilitySensor partialVisibility onChange={onChange}>
-     <canvas id={'canvasPDF'+index}/> 
-    </VisibilitySensor>
-  </div>
+  return (
+    <div key={String(index) + "pdf"} style={{ textAlign: "center" }}>
+      <VisibilitySensor partialVisibility onChange={onChange}>
+        <canvas id={"canvasPDF" + index} style={style} />
+      </VisibilitySensor>
+    </div>
+  );
+});
 
-})
-
-export const PDFViewer=(props)=>{
-  const [pages,setPages]=useState([])
-  const [loading,setLoading]=useState(true)
-  const [zoom,setZoom]=useState(0)
-  const pdfRef=useRef()
-  const containerRef=useRef()
-  const handleIncreaseZoom=()=>{
+export const PDFViewer = (props) => {
+  const [pages, setPages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [zoom, setZoom] = useState(0);
+  const pdfRef = useRef();
+  const containerRef = useRef();
+  const handleIncreaseZoom = () => {
     if (timeout) {
       clearTimeout(timeout);
       timeout = null;
     }
-    timeout = setTimeout(()=>{
-      setZoom(s=>s+1)
-    }, 200);
-    
-  }
+    timeout = setTimeout(() => {
+      setZoom((s) => s + 1);
+    }, 100);
+  };
 
-  const handleReduceZoom=()=>{
-    if (zoom <-2) return;
+  const handleReduceZoom = () => {
+    if (zoom < -13) return;
     if (timeout) {
       clearTimeout(timeout);
       timeout = null;
     }
-    timeout = setTimeout(()=>{
-      setZoom(s=>s-1)
-    }, 200);
-  }
+    timeout = setTimeout(() => {
+      setZoom((s) => s - 1);
+    }, 100);
+  };
 
-  useEffect(()=>{
-    if(props?.filePath){
-      PDFJS.getDocument(props?.filePath).promise.then((pdf) => {
-        pdfRef.current=pdf
-        const random=(Math.random() * 10000000).toFixed(0)
+  useEffect(() => {
+    if (props?.filePath) {
+      PDFJS.getDocument({
+        data: props?.filePath,
+        cMapUrl: CMAP_URL,
+        cMapPacked: CMAP_PACKED,
+      }).promise.then((pdf) => {
+        pdfRef.current = pdf;
+        const random = (Math.random() * 10000000).toFixed(0);
         const tempPages = Array.from({ length: pdf.numPages }).fill(random);
-        setPages(tempPages)
-        setLoading(false)
+        setPages(tempPages);
+        setLoading(false);
       });
     }
-  },[props?.filePath])
+  }, [props?.filePath]);
 
-  return <div className="pdf-viewer-wrapper" style={{width:'100%',height:'100%',overflow:'auto'}}>
-    <div className="pdf-controls">
-      <div className="pdf-large" onClick={handleIncreaseZoom}>
-        <img src={Plus} alt="" />
+  return (
+    <div
+      className="pdf-viewer-wrapper"
+      style={{ width: "100%", height: "100%", overflow: "auto" }}
+    >
+      <div className="pdf-controls">
+        <div className="pdf-large" onClick={handleIncreaseZoom}>
+          <img src={Plus} alt="" />
+        </div>
+        <div className="pdf-small" onClick={handleReduceZoom}>
+          <img src={Minus} alt="" />
+        </div>
       </div>
-      <div className="pdf-small" onClick={handleReduceZoom}>
-      <img src={Minus} alt="" />
+      {loading && <Loading />}
+      <div ref={containerRef} className="pdf-viewer">
+        {!loading &&
+          pages?.map((x, i) => {
+            return (
+              <PDFPage
+                key={String(i) + "pdfs" + x}
+                index={i + 1}
+                zoom={zoom * INCREASE_PERCENTAGE}
+                pdfInstance={pdfRef.current}
+                containerWidth={containerRef.current?.offsetWidth}
+              />
+            );
+          })}
       </div>
     </div>
-    {loading && <Loading/>}
-    <div ref={containerRef} className="pdf-viewer">
-      {
-        !loading && pages?.map((x,i)=>{
-          return <PDFPage 
-            key={String(i)+'pdfs'+x}
-            index={i+1} 
-            zoom={zoom * INCREASE_PERCENTAGE} 
-            pdfInstance={pdfRef.current} 
-            containerWidth={containerRef.current?.offsetWidth}
-          />
-        })
-      }
-    </div>
-  </div>
-}
+  );
+};
