@@ -3,6 +3,7 @@ Niubility！
 
 
 ## How to use
+Note: Copy cmaps from the dependency package lib folder to the public folder of the project
 
 ```js
 import {FileViewer,readBuffer} from "@zoley/react-file-preview";
