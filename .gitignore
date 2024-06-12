@@ -12,8 +12,8 @@
 
 # production
 /build
-#/lib
-
+/lib
+#
 # misc
 .DS_Store
 .env.local
