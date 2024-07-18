@@ -1,5 +1,7 @@
 
-import {FileViewer,readBuffer} from "./components/fileViewer";
+// import {FileViewer,readBuffer} from "./components";
+// import {FileViewer,readBuffer} from "/lib/index";
+const {FileViewer,readBuffer}=await import("/lib/index")
 import {Loading} from "./components/loading";
 import {useState} from 'react'
 function App() {
@@ -9,6 +11,7 @@ function App() {
     const dot = name.lastIndexOf('.')
     return name.substr(dot + 1);
   }
+  // console.log(ABC)
   const handleChange=(e)=>{
     console.log(e?.target?.files)
     const [file]=e?.target?.files

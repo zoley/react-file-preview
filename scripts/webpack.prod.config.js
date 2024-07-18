@@ -20,10 +20,12 @@ const webpackConfigProd = {
     output: {
         filename: 'index.js',
         path: resolve('../lib'),
-        libraryTarget: 'commonjs2',
+        libraryTarget: 'commonjs2', // https://zhuanlan.zhihu.com/p/108216236
+        // umdNamedDefine:true,
+        // globalObject:'this'
     },
 
-    devtool: 'source-map',  //或使用'cheap-module-source-map'、'none'
+    devtool: 'cheap-module-source-map',  //或使用'cheap-module-source-map'、'none'
     optimization: {
         minimizer: [
             // 压缩js代码

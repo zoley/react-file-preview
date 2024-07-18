@@ -20,7 +20,8 @@ const webpackConfigDev = {
         filename: 'index.js'
     },
 
-    devtool: 'eval-cheap-module-source-map',
+    devtool: 'eval-source-map',
+    // devtool: 'eval-cheap-module-source-map',
 
     devServer: {
         hot: true,
