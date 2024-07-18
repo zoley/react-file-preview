@@ -1,9 +1,10 @@
-import * as PDFJS from "pdfjs-dist/legacy/build/pdf.min.mjs";
+// import * as PDFJS from "pdfjs-dist/legacy/build/pdf.min.mjs";
 import React, { useEffect, useState, useRef } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 import { Loading } from "../loading";
 import Plus from "./plus.svg";
 import Minus from "./minus.svg";
+const PDFJS = await import("pdfjs-dist/legacy/build/pdf.mjs");
 PDFJS.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/legacy/build/pdf.worker.min.mjs",
   import.meta.url
