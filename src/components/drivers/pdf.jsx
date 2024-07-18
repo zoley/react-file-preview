@@ -1,11 +1,11 @@
-import * as PDFJS from "pdfjs-dist";
+import * as PDFJS from "pdfjs-dist/legacy/build/pdf.min.mjs";
 import React, { useEffect, useState, useRef } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 import { Loading } from "../loading";
 import Plus from "./plus.svg";
 import Minus from "./minus.svg";
 PDFJS.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
+  "pdfjs-dist/legacy/build/pdf.worker.min.mjs",
   import.meta.url
 ).toString();
 
