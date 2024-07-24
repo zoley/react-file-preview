@@ -9,9 +9,9 @@ npm install @zoley/react-file-preview -S
 
 ### Example
 ```js
-import {FileViewer,readBuffer} from "@zoley/react-file-preview"; //1.1.4
+import {FileViewer,readBuffer} from "@zoley/react-file-preview"; 
 
-const {FileViewer,readBuffer}=await import("@zoley/react-file-preview") //1.1.9
+// const {FileViewer,readBuffer}=await import("@zoley/react-file-preview") //1.1.9
 
 const filePath = await readBuffer(file)
 const fileType = 'pdf'

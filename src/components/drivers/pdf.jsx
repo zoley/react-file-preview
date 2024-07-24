@@ -4,25 +4,27 @@
  * https://github.com/mozilla/pdf.js/issues/18446   question
  * https://github.com/mozilla/pdf.js/issues/18006   question
  * https://github.com/mozilla/pdf.js/wiki/Frequently-Asked-Questions#faq-support  solution
- * 
+ *
  * import * as PDFJS from "pdfjs-dist";
  * PDFJS.GlobalWorkerOptions.workerSrc = new URL(
  *   "pdfjs-dist/build/pdf.worker.min.mjs",
  *   import.meta.url
  * ).toString();
- * 
+ *
  */
-
 
 import React, { useEffect, useState, useRef } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 import { Loading } from "../loading";
 import Plus from "./plus.svg";
 import Minus from "./minus.svg";
-const PDFJS = await import("pdfjs-dist/legacy/build/pdf.mjs");
-const workerSrc=await import("pdfjs-dist/legacy/build/pdf.worker.mjs") 
-PDFJS.GlobalWorkerOptions.workerSrc=workerSrc.toString()
+// const PDFJS = await import("pdfjs-dist/legacy/build/pdf.mjs");
+// const workerSrc=await import("pdfjs-dist/legacy/build/pdf.worker.mjs")
+// PDFJS.GlobalWorkerOptions.workerSrc=workerSrc.toString()
 
+import * as PDFJS from "pdfjs-dist/legacy/build/pdf";
+import * as pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker";
+PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker.toString();
 
 const DEFAULT_SCALE = 3;
 const INCREASE_PERCENTAGE = 0.2;
