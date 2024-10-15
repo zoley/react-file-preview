@@ -1,6 +1,6 @@
 
-// import {FileViewer,readBuffer} from "./components";
-import {FileViewer,readBuffer} from "/lib/index";
+import {FileViewer,readBuffer} from "./components";
+// import {FileViewer,readBuffer} from "/lib/index";
 // const {FileViewer,readBuffer}=await import("/lib/index")
 import {Loading} from "./components/loading";
 import {useState} from 'react'
