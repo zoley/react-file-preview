@@ -18,13 +18,41 @@ import VisibilitySensor from "react-visibility-sensor";
 import { Loading } from "../loading";
 import Plus from "./plus.svg";
 import Minus from "./minus.svg";
-// const PDFJS = await import("pdfjs-dist/legacy/build/pdf.mjs");
-// const workerSrc=await import("pdfjs-dist/legacy/build/pdf.worker.mjs")
-// PDFJS.GlobalWorkerOptions.workerSrc=workerSrc.toString()
 
-import * as PDFJS from "pdfjs-dist/legacy/build/pdf";
-import * as pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker";
-PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker.toString();
+// 动态导入PDF.js以减少初始包大小
+let PDFJS = null;
+let isLoading = false;
+
+const loadPDFJS = async () => {
+  if (PDFJS) return PDFJS;
+  if (isLoading) {
+    // 如果正在加载，等待加载完成
+    while (isLoading) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    return PDFJS;
+  }
+  
+  isLoading = true;
+  try {
+    // 动态导入PDF.js
+    const pdfjsModule = await import("pdfjs-dist/legacy/build/pdf");
+    PDFJS = pdfjsModule;
+    
+    // 设置worker路径 - 优先使用CDN，降级到本地
+    try {
+      PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
+    } catch (e) {
+      // 降级到动态导入worker
+      const workerModule = await import("pdfjs-dist/legacy/build/pdf.worker");
+      PDFJS.GlobalWorkerOptions.workerSrc = workerModule.toString();
+    }
+    
+    return PDFJS;
+  } finally {
+    isLoading = false;
+  }
+};
 
 const DEFAULT_SCALE = 3;
 const INCREASE_PERCENTAGE = 0.2;
@@ -106,16 +134,18 @@ export const PDFViewer = (props) => {
 
   useEffect(() => {
     if (props?.filePath) {
-      PDFJS.getDocument({
-        data: props?.filePath,
-        cMapUrl: CMAP_URL,
-        cMapPacked: CMAP_PACKED,
-      }).promise.then((pdf) => {
-        pdfRef.current = pdf;
-        const random = (Math.random() * 10000000).toFixed(0);
-        const tempPages = Array.from({ length: pdf.numPages }).fill(random);
-        setPages(tempPages);
-        setLoading(false);
+      loadPDFJS().then((pdfjs) => {
+        pdfjs.getDocument({
+          data: props?.filePath,
+          cMapUrl: CMAP_URL,
+          cMapPacked: CMAP_PACKED,
+        }).promise.then((pdf) => {
+          pdfRef.current = pdf;
+          const random = (Math.random() * 10000000).toFixed(0);
+          const tempPages = Array.from({ length: pdf.numPages }).fill(random);
+          setPages(tempPages);
+          setLoading(false);
+        });
       });
     }
   }, [props?.filePath]);

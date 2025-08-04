@@ -1,7 +1,29 @@
 
 
-import {PDFViewer,DocxViewer,XlsxViewer,PPtxViewer,ImgViewer,TextViewer,VideoViewer} from './drivers'
+import React, { Suspense } from 'react';
+import { ImgViewer, TextViewer, VideoViewer } from './drivers'
+import { loadPDFViewer, loadDocxViewer, loadXlsxViewer, loadPPtxViewer } from './drivers'
 import './style.css'
+
+// 创建动态加载的组件
+const PDFViewer = React.lazy(() => import('./drivers/pdf').then(module => ({ default: module.PDFViewer })));
+const DocxViewer = React.lazy(() => import('./drivers/docx').then(module => ({ default: module.DocxViewer })));
+const XlsxViewer = React.lazy(() => import('./drivers/xlsx').then(module => ({ default: module.XlsxViewer })));
+const PPtxViewer = React.lazy(() => import('./drivers/pptx').then(module => ({ default: module.PPtxViewer })));
+
+// 加载组件
+const LoadingComponent = () => (
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '200px',
+    fontSize: '16px',
+    color: '#666'
+  }}>
+    正在加载文件查看器...
+  </div>
+);
 
 export async function readBuffer(file) {
   if(file){
@@ -22,16 +44,32 @@ export const FileViewer=(props)=>{
   const  getDriver=(fileType) =>{
     switch (fileType) {
       case 'pdf': {
-        return <PDFViewer {...props}/>;
+        return (
+          <Suspense fallback={<LoadingComponent />}>
+            <PDFViewer {...props}/>
+          </Suspense>
+        );
       }
       case 'docx': {
-        return <DocxViewer {...props}/>;
+        return (
+          <Suspense fallback={<LoadingComponent />}>
+            <DocxViewer {...props}/>
+          </Suspense>
+        );
       }
       case 'xlsx': {
-        return <XlsxViewer {...props}/>;
+        return (
+          <Suspense fallback={<LoadingComponent />}>
+            <XlsxViewer {...props}/>
+          </Suspense>
+        );
       }
       case 'pptx': {
-        return <PPtxViewer {...props}/>;
+        return (
+          <Suspense fallback={<LoadingComponent />}>
+            <PPtxViewer {...props}/>
+          </Suspense>
+        );
       }
       case "gif": 
       case "jpg": 
