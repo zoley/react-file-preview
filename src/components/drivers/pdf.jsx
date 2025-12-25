@@ -29,7 +29,7 @@ PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker.toString();
 const DEFAULT_SCALE = 3;
 const INCREASE_PERCENTAGE = 0.2;
 let timeout;
-const CMAP_URL = "/cmaps/";
+
 const CMAP_PACKED = true;
 
 const PDFPage = React.memo(({ index, zoom, pdfInstance, containerWidth }) => {
@@ -78,6 +78,8 @@ const PDFPage = React.memo(({ index, zoom, pdfInstance, containerWidth }) => {
 });
 
 export const PDFViewer = (props) => {
+  const basePath=props?.basePath || '';
+  const CMAP_URL = basePath+"/cmaps/";
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [zoom, setZoom] = useState(0);

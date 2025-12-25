@@ -1,15 +1,17 @@
-# File viewer for React 
+# File viewer for React
+
 Niubility！
 
-
 ## How to use
+
 ```js
 npm install @zoley/react-file-preview -S
 ```
 
 ### Example
+
 ```js
-import {FileViewer,readBuffer} from "@zoley/react-file-preview"; 
+import {FileViewer,readBuffer} from "@zoley/react-file-preview";
 
 // const {FileViewer,readBuffer}=await import("@zoley/react-file-preview") //1.1.9
 
@@ -19,37 +21,40 @@ const fileType = 'pdf'
 <FileViewer
   fileType={fileType}
   filePath={filePath}
+  basePath={basePath}
 />
 ```
+
 ### What file types are supported
+
 ```js
-case 'pdf': 
-case 'docx': 
-case 'xlsx': 
-case 'pptx': 
-case "gif": 
-case "jpg": 
+case 'pdf':
+case 'docx':
+case 'xlsx':
+case 'pptx':
+case "gif":
+case "jpg":
 case "jpeg":
-case "bmp": 
-case "tiff": 
+case "bmp":
+case "tiff":
 case "tif":
 case "png":
-case "txt": 
-case "json": 
-case "js": 
-case "css": 
-case "java": 
-case "py": 
-case "html": 
-case "jsx": 
-case "ts": 
-case "tsx": 
-case "xml": 
-case "md": 
-case "log": 
+case "txt":
+case "json":
+case "js":
+case "css":
+case "java":
+case "py":
+case "html":
+case "jsx":
+case "ts":
+case "tsx":
+case "xml":
+case "md":
+case "log":
 case 'mp4':
 ```
 
-
 #### The following note is only for previewing special fonts in PDF
+
 Note: Copy cmaps from the dependency package lib folder to the public folder of the project
