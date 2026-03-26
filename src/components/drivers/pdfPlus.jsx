@@ -212,10 +212,10 @@ export const PdfPlusViewer = (props) => {
       const pdf = await loadingTask.promise;
       setPdfDoc(pdf);
       setTotalPages(pdf.numPages);
-      message.success(`PDF加载成功`);
+      // message.success(`PDF加载成功`);
     } catch (error) {
       console.error("Error loading PDF:", error);
-      message.error("PDF加载失败，请检查文件");
+      // message.error("PDF加载失败，请检查文件");
     } finally {
       setLoading(false);
     }
@@ -421,7 +421,7 @@ export const PdfPlusViewer = (props) => {
             style={{ color: "white" }}
             icon={<ZoomInOutlined />}
             onClick={handleZoomIn}
-            disabled={!pdfDoc || (typeof scale === "number" && scale >= 3)}
+            disabled={!pdfDoc || (typeof scale === "number" && scale >= 4)}
           />
           <Select
             value={scale}
