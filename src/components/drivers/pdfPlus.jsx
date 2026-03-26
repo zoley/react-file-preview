@@ -346,7 +346,7 @@ export const PdfPlusViewer = (props) => {
           flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: "#2b579a", // 蓝色背景
+          backgroundColor: !pdfDoc?'transparent':"#2b579a", // 蓝色背景
           color: "white",
           padding: "5px 12px",
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
@@ -482,19 +482,6 @@ export const PdfPlusViewer = (props) => {
             }}
           >
             <Spin size="large" tip="加载文档中..." />
-          </div>
-        )}
-
-        {!pdfDoc && !loading && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: 100,
-              color: "#999",
-            }}
-          >
-            请点击左上角图标上传PDF文件
           </div>
         )}
 
