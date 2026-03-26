@@ -1,6 +1,6 @@
 
 
-import {PDFViewer,DocxViewer,XlsxViewer,PPtxViewer,ImgViewer,TextViewer,VideoViewer} from './drivers'
+import {PDFViewer,PdfPlusViewer,DocxViewer,XlsxViewer,PPtxViewer,ImgViewer,TextViewer,VideoViewer} from './drivers'
 import './style.css'
 
 export async function readBuffer(file) {
@@ -22,7 +22,7 @@ export const FileViewer=(props)=>{
   const  getDriver=(fileType) =>{
     switch (fileType) {
       case 'pdf': {
-        return <PDFViewer {...props}/>;
+        return props?.hasControl?<PdfPlusViewer {...props}/>:<PDFViewer {...props}/>;
       }
       case 'docx': {
         return <DocxViewer {...props}/>;
@@ -69,8 +69,8 @@ export const FileViewer=(props)=>{
     }
   }
 
-  return <div className="cr-viewer-wrapper">
-    <div className="cr-viewer" id="cr-viewer">
+  return <div className="cr-viewer-wrapper" style={{height:'100%'}}>
+    <div className="cr-viewer" id="cr-viewer" style={{height:'100%'}}>
     {getDriver(props?.fileType)}
     </div>
 </div>

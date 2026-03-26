@@ -24,7 +24,7 @@ import Minus from "./minus.svg";
 
 import * as PDFJS from "pdfjs-dist/legacy/build/pdf";
 import * as pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker";
-PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker.toString();
+PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker?.toString();
 
 const DEFAULT_SCALE = 3;
 const INCREASE_PERCENTAGE = 0.2;
