@@ -21,6 +21,11 @@ export function fixMatrix(data, colLen) {
   return data;
 }
 
+// 获取工作表的所有行，包括仅设置了格式但没有单元格值的行
+export function getWorksheetRows(worksheet) {
+  return worksheet?.getRows(1, worksheet.rowCount) || [];
+}
+
 // 首字母大写
 export function captain(str) {
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;

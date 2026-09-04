@@ -3,7 +3,7 @@ import ExcelJS from "exceljs";
 import Handsontable from "handsontable";
 import { registerLanguageDictionary, zhCN } from "handsontable/i18n";
 import "handsontable/dist/handsontable.full.min.css";
-import { camelCase, captain, fixMatrix } from "./util";
+import { camelCase, captain, fixMatrix, getWorksheetRows } from "./util";
 import { Loading } from "../loading";
 // 注册中文
 registerLanguageDictionary(zhCN);
@@ -234,8 +234,8 @@ const RenderTable = ({ workbook = {}, ...props }) => {
   const data = useMemo(() => {
     if (ws && cols) {
       const tdata = fixMatrix(
-        ws?.getRows(1, ws.actualRowCount)?.map((row) =>
-          row?._cells.map((item) => {
+        getWorksheetRows(ws).map((row) =>
+          (row?._cells.map((item) => {
             const value = item.model.value;
             if (value) {
               if (value.richText) {
@@ -248,7 +248,7 @@ const RenderTable = ({ workbook = {}, ...props }) => {
               return value;
             }
             return "";
-          })
+          }) || [])
         ),
         cols?.length
       );
@@ -267,8 +267,8 @@ const RenderTable = ({ workbook = {}, ...props }) => {
   }, [ws]);
   const cell = useMemo(() => {
     if (ws) {
-      return ws?.getRows(1, ws.actualRowCount)?.flatMap((row, ri) => {
-        return row._cells
+      return getWorksheetRows(ws).flatMap((row, ri) => {
+        return (row?._cells
           ?.map((cell, ci) => {
             if (cell.style) {
               return {
@@ -281,15 +281,15 @@ const RenderTable = ({ workbook = {}, ...props }) => {
               };
             }
           })
-          .filter((i) => i);
+          .filter((i) => i)) || [];
       });
     }
     return [];
   }, [ws]);
   const border = useMemo(() => {
     if (ws) {
-      return ws?.getRows(1, ws.actualRowCount)?.flatMap((row, ri) => {
-        return row._cells
+      return getWorksheetRows(ws).flatMap((row, ri) => {
+        return (row?._cells
           ?.map((cell, ci) => {
             if (cell.style && cell.style.border) {
               const border = cell.style.border;
@@ -313,7 +313,7 @@ const RenderTable = ({ workbook = {}, ...props }) => {
               }
             }
           })
-          .filter((i) => i);
+          .filter((i) => i)) || [];
       });
     }
     return [];
