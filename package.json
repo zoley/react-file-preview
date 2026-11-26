@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "private": false,
   "scripts": {
-    "build": "webpack --config ./scripts/webpack.prod.config.js",
+    "build": "webpack --config ./scripts/webpack.prod.config.js && node ./scripts/copy-pdf-assets.js",
     "start": "webpack-dev-server --config ./scripts/webpack.dev.config.js"
   },
   "files": [
