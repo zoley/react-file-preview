@@ -6,3 +6,5 @@ export * from "./pptx";
 export * from "./image";
 export * from "./text";
 export * from "./video";
+export * from "./html";
+export * from "./markdown";

@@ -1,6 +1,6 @@
 
 
-import {PDFViewer,PdfPlusViewer,DocxViewer,XlsxViewer,PPtxViewer,ImgViewer,TextViewer,VideoViewer} from './drivers'
+import {PDFViewer,PdfPlusViewer,DocxViewer,XlsxViewer,PPtxViewer,ImgViewer,TextViewer,VideoViewer,HtmlViewer,MarkdownViewer} from './drivers'
 import './style.css'
 
 export async function readBuffer(file) {
@@ -42,18 +42,23 @@ export const FileViewer=(props)=>{
       case "png": {
         return <ImgViewer {...props}/>;
       }
+      case "html":
+      case "htm": {
+        return <HtmlViewer {...props}/>;
+      }
+      case "md": {
+        return <MarkdownViewer {...props}/>;
+      }
       case "txt": 
       case "json": 
       case "js": 
       case "css": 
       case "java": 
       case "py": 
-      case "html": 
       case "jsx": 
       case "ts": 
       case "tsx": 
       case "xml": 
-      case "md": 
       case "log": {
         return <TextViewer {...props}/>;
       }

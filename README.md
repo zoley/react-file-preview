@@ -46,6 +46,7 @@ case "css":
 case "java":
 case "py":
 case "html":
+case "htm":
 case "jsx":
 case "ts":
 case "tsx":
@@ -58,3 +59,5 @@ case 'mp4':
 #### The following note is only for previewing special fonts in PDF
 
 Note: Copy cmaps from the dependency package lib folder to the public folder of the project
+
+### HTML and Markdown previews
