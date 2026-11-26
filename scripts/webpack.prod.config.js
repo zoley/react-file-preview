@@ -40,7 +40,8 @@ const webpackConfigProd = {
         ],
     },
     externalsPresets: { node: true },
-    externals: [nodeExternals()],
+    // 先打包 Markdown 及缓存依赖，避免旧版消费端 Webpack 错误优化其压缩源码。
+    externals: [nodeExternals({ allowlist: [/^md-editor-rt(?:\/|$)/, /^lru-cache(?:\/|$)/] })],
 
     plugins: [
         new CleanWebpackPlugin() //每次执行都将清空一下目录
