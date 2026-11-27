@@ -72,3 +72,7 @@
 .docx-viewer-wrapper .docx-wrapper section {
   margin: 0 auto;
 }
+
+.cr-viewer-wrapper .md-editor-preview.md-editor-scrn {
+  padding: 16px;
+}
